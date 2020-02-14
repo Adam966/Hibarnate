@@ -3,6 +3,10 @@ package manyToOne;
 import instructor_uni.Instructor;
 
 import javax.persistence.*;
+import OneToMany.Review;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "course")
@@ -20,11 +24,23 @@ public class Course {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id ")
+    private List<Review> reviews;
+
     public Course() {
     }
 
     public Course(String title) {
         this.title = title;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public int getId() {
@@ -49,6 +65,13 @@ public class Course {
 
     public void setInstructor(Instructor instructor) {
         this.instructor = instructor;
+    }
+
+    public void add(Review review) {
+        if (reviews == null)
+            reviews = new ArrayList<Review>();
+
+        reviews.add(review);
     }
 
     @Override
