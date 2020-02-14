@@ -1,6 +1,5 @@
-package hibernate;
+package student;
 
-import hibernate.entity.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -17,24 +16,25 @@ public class QueryStudentDemo {
         Session session = factory.getCurrentSession();
 
         try {
-
-            System.out.println("Creating student object");
-            System.out.println("Begin transaction");
             session.beginTransaction();
+            List<Student> students = session.createQuery("from Student").list();
+            displayStudent(students);
 
-            List<Student> theStudents = session.createQuery("from Student").list();
+            students = session.createQuery("from Student s where s.lastName='Duffy'").list();
+            displayStudent(students);
 
-            for(Student tempStudent : theStudents){
-                System.out.println(tempStudent);
-            }
-
-            System.out.println("Commit transaction");
             session.getTransaction().commit();
 
-            System.out.println("Done");
-
+        }catch (Exception exc) {
+            exc.printStackTrace();
         } finally {
+            session.close();
+        }
+    }
 
+    private static void displayStudent(List<Student> students) {
+        for (Student s: students) {
+            System.out.println(s.getFirstName() + " " + s.getLastName());
         }
     }
 }

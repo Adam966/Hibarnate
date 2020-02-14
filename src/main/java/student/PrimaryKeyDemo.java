@@ -1,12 +1,10 @@
-package hibernate;
+package student;
 
-import hibernate.entity.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class CreateStudentDemo {
-
+public class PrimaryKeyDemo {
     public static void main(String[] args) {
         SessionFactory factory = new Configuration()
                 .configure("hibernate.cfg.xml")
@@ -16,22 +14,21 @@ public class CreateStudentDemo {
         Session session = factory.getCurrentSession();
 
         try {
+            Student student = new Student("Ivan1", "Adam1", "adam.ivan@email.sk");
+            Student student2 = new Student("Ivan2", "Adam2", "adam.ivan@email.sk");
+            Student student3 = new Student("Ivan3", "Adam3", "adam.ivan@email.sk");
 
-            System.out.println("Creating student object");
-            Student tempStudent = new Student("Paul","Wall","paul@luv2code.com");
 
             session.beginTransaction();
-
-            System.out.println("Saving the student");
-            session.save(tempStudent);
-
-            System.out.println("Commit transaction");
+            session.save(student);
+            session.save(student2);
+            session.save(student3);
             session.getTransaction().commit();
 
-            System.out.println("Done");
-
+        }catch (Exception exc) {
+            exc.printStackTrace();
         } finally {
-
+            session.close();
         }
     }
 }
