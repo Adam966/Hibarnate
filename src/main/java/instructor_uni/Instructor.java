@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "instructor_uni")
+@Table(name = "instructor")
 public class Instructor {
 
     @OneToOne(cascade = CascadeType.ALL)
